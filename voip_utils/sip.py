@@ -397,8 +397,9 @@ class SipDatagramProtocol(asyncio.DatagramProtocol, ABC):
                     raise ValueError("Empty receiver URI")
 
                 caller_endpoint = None
-                # The From header should give us the URI used for sending SIP messages to the device
-                if smsg.headers.get("from") is not None:
+                # The From header should give us the URI used for sending SIP messages to the device.
+                # For 3CX, the caller URI is found in the Contact header.
+                if smsg.headers.get("from") is not None and "3CXPhoneSystem" not in smsg.headers.get("user-agent", ""):
                     caller_endpoint = SipEndpoint(smsg.headers.get("from", ""))
                 # We can try using the Contact header as a fallback
                 elif smsg.headers.get("contact") is not None:
