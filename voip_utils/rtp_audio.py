@@ -59,10 +59,13 @@ class RtpOpusInput:
             ">BBHLL", rtp_bytes[:12]
         )
 
+        _LOGGER.debug("Got payload type: %d", payload_type)
+
         if flags != 0b10000000:
             raise RtpError("Padding and extension headers not supported")
 
         payload_type &= 0x7F  # Remove marker bit
+        _LOGGER.debug("Payload type after marker: %d", payload_type)
         if payload_type != self.opus_payload_type:
             raise RtpError(
                 f"Expected payload type {self.opus_payload_type}, got {payload_type}"
