@@ -140,7 +140,7 @@ class RtpDatagramProtocol(asyncio.DatagramProtocol, ABC):
         self,
         rate: int = 16000,
         width: int = 2,
-        channels: int = 2,
+        channels: int = 1,
         opus_payload_type: int = OPUS_PAYLOAD_TYPE,
         rtcp_state: Optional[RtcpState] = None,
     ) -> None:
